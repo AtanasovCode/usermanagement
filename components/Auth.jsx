@@ -21,6 +21,8 @@ AppState.addEventListener('change', (state) => {
 const Auth = () => {
 
     const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     return (
         <View className="flex-1">
@@ -32,8 +34,12 @@ const Auth = () => {
                 <TextInput
                     placeholder="mail@example.com"
                     placeholderTextColor="#a09d9d"
-                    className="bg-slate-800 px-4 py-2 rounded-2xl"
+                    className="bg-slate-800 text-white px-4 py-2 rounded-2xl"
                     keyboardType="email-address"
+                    value={email}
+                    onChangeText={(value) => {
+                        setEmail(value)
+                    }}
                 />
             </View>
             <View className="mx-6 mb-8">
@@ -43,6 +49,10 @@ const Auth = () => {
                     className="bg-slate-800 px-4 py-2 rounded-2xl text-white"
                     keyboardType="email-address"
                     secureTextEntry={true}
+                    value={password}
+                    onChangeText={(value) => {
+                        setPassword(value)
+                    }}
                 />
             </View>
             <View className="mx-6 mb-8">
