@@ -69,7 +69,7 @@ const Auth = () => {
 
 
     return (
-        <View className="flex-1">
+        <View className="flex-1 bg-black pt-16">
             <StatusBar style="light" />
             <View className="flex-row items-center justify-center gap-4 mb-16">
                 <FontAwesome name="users" size={36} color="white" />

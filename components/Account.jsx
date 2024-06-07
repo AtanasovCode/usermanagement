@@ -82,7 +82,7 @@ const Account = ({ session }) => {
 
 
     return (
-        <View className="flex-1 bg-black">
+        <View className="flex-1 bg-black pt-16">
             <StatusBar style="light" />
             <View className="flex-row gap-4 items-center justify-center mb-12">
                 <FontAwesome name="user" size={36} color="white" />
