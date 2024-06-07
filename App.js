@@ -1,34 +1,47 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from './lib/supabase'
 import Auth from './components/Auth'
 import Account from './components/Account'
-import { View } from 'react-native'
-import { Session } from '@supabase/supabase-js'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useStore } from './useStore'
 
 export default function App() {
-
   const Stack = createNativeStackNavigator();
 
-  const [session, setSession] = useState(null);
+  const session = useStore((state) => state.session);
+  const setSession = useStore((state) => state.setSession);
+  const navigationRef = useRef();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session);
+    };
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
+    getSession();
 
-  // <View className="flex-1 bg-black pt-16">
-  //     {session && session.user ? <Account key={session.user.id} session={session} /> : <Auth />}
-  //   </View>
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => {
+      authListener.unsubscribe();
+    };
+  }, [setSession]);
+
+  useEffect(() => {
+    if (navigationRef.current) {
+      if (session && session.user) {
+        navigationRef.current.navigate('Account');
+      } else {
+        navigationRef.current.navigate('Auth');
+      }
+    }
+  }, [session]);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator initialRouteName={session && session.user ? "Account" : "Auth"}>
         <Stack.Screen
           name="Auth"
@@ -46,5 +59,5 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }

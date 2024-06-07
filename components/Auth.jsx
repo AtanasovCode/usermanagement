@@ -10,6 +10,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { supabase } from "../lib/supabase";
 import { FontAwesome } from '@expo/vector-icons';
+import { useStore } from "../useStore";
 
 AppState.addEventListener('change', (state) => {
     if (state === 'active') {
@@ -25,6 +26,8 @@ const Auth = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
+
+    const session = useStore((state) => state.session);
 
     async function signInWithEmail() {
         setLoading(true)

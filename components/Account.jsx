@@ -10,12 +10,15 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { supabase } from "../lib/supabase";
 import { FontAwesome } from '@expo/vector-icons';
+import { useStore } from "../useStore";
 
-const Account = ({ session }) => {
+const Account = () => {
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState('');
     const [website, setWebsite] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('');
+
+    const session = useStore((state) => state.session);
 
     useEffect(() => {
         if (session) getProfile();
@@ -94,14 +97,14 @@ const Account = ({ session }) => {
             </View>
             <View className="items-center justify-between flex-row mx-8 mb-6">
                 <Text className="text-lg text-gray-300 font-light text-left">username:</Text>
-                <Text className="text-white text-lg">{username}</Text>
+                <Text className="text-white text-lg">{username || 'Loading...'}</Text>
             </View>
             <View className="items-center justify-between flex-row mx-8">
                 <Text className="text-lg text-gray-300 font-light text-left">description:</Text>
                 <Text className="text-white text-lg">{session?.user?.email}</Text>
             </View>
             <View className="absolute bottom-16 left-0 right-0 items-center justify-center">
-                <TouchableOpacity 
+                <TouchableOpacity
                     className="bg-sky-600 w-[70%] p-5 rounded-xl items-center justify-center"
                     onPress={() => signOut()}
                 >
