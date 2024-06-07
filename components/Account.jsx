@@ -94,14 +94,17 @@ const Account = ({ session }) => {
             </View>
             <View className="items-center justify-between flex-row mx-8 mb-6">
                 <Text className="text-lg text-gray-300 font-light text-left">username:</Text>
-                <Text className="text-white text-lg">{session?.user?.email}</Text>
+                <Text className="text-white text-lg">{username}</Text>
             </View>
             <View className="items-center justify-between flex-row mx-8">
                 <Text className="text-lg text-gray-300 font-light text-left">description:</Text>
                 <Text className="text-white text-lg">{session?.user?.email}</Text>
             </View>
             <View className="absolute bottom-16 left-0 right-0 items-center justify-center">
-                <TouchableOpacity className="bg-sky-600 w-[70%] p-5 rounded-xl items-center justify-center">
+                <TouchableOpacity 
+                    className="bg-sky-600 w-[70%] p-5 rounded-xl items-center justify-center"
+                    onPress={() => signOut()}
+                >
                     <Text className="text-white">Sign Out</Text>
                 </TouchableOpacity>
             </View>

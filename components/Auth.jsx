@@ -24,6 +24,7 @@ const Auth = () => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
 
     async function signInWithEmail() {
         setLoading(true)
@@ -37,18 +38,35 @@ const Auth = () => {
     }
 
     async function signUpWithEmail() {
-        setLoading(true)
+        setLoading(true);
         const {
-            data: { session },
+            data: { user, session },
             error,
         } = await supabase.auth.signUp({
             email: email,
             password: password,
-        })
+        });
 
-        if (error) Alert.alert(error.message)
-        setLoading(false)
+        if (error) {
+            Alert.alert(error.message);
+            setLoading(false);
+            return;
+        }
+
+        if (user) {
+            const { error: updateError } = await supabase
+                .from('profiles') // assuming you have a 'profiles' table to store user profiles
+                .update({ username: username })
+                .eq('id', user.id);
+
+            if (updateError) {
+                Alert.alert(updateError.message);
+            }
+        }
+
+        setLoading(false);
     }
+
 
     return (
         <View className="flex-1">
@@ -71,13 +89,12 @@ const Auth = () => {
             </View>
             <View className="mx-6 mb-8">
                 <TextInput
-                    placeholder="username"
+                    placeholder="Username"
                     placeholderTextColor="#a09d9d"
                     className="bg-slate-800 text-white px-4 py-2 rounded-2xl"
-                    keyboardType="email-address"
-                    value={email}
+                    value={username}
                     onChangeText={(value) => {
-                        setEmail(value)
+                        setUsername(value)
                     }}
                 />
             </View>
@@ -94,7 +111,7 @@ const Auth = () => {
                     }}
                 />
             </View>
-            <View className="mx-6 mb-8">
+            <View className="mx-6 mb-4">
                 <TouchableOpacity
                     className="p-4 rounded-2xl bg-sky-400"
                     disabled={loading}

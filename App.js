@@ -19,7 +19,7 @@ export default function App() {
   }, [])
 
   return (
-    <View className="flex-1 bg-black pt-10">
+    <View className="flex-1 bg-black pt-16">
       {session && session.user ? <Account key={session.user.id} session={session} /> : <Auth />}
     </View>
   )
