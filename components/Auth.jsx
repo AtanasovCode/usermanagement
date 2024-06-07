@@ -71,6 +71,18 @@ const Auth = () => {
             </View>
             <View className="mx-6 mb-8">
                 <TextInput
+                    placeholder="username"
+                    placeholderTextColor="#a09d9d"
+                    className="bg-slate-800 text-white px-4 py-2 rounded-2xl"
+                    keyboardType="email-address"
+                    value={email}
+                    onChangeText={(value) => {
+                        setEmail(value)
+                    }}
+                />
+            </View>
+            <View className="mx-6 mb-8">
+                <TextInput
                     placeholder="Password"
                     placeholderTextColor="#a09d9d"
                     className="bg-slate-800 px-4 py-2 rounded-2xl text-white"

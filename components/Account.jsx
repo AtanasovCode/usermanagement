@@ -76,15 +76,34 @@ const Account = ({ session }) => {
         }
     }
 
+    async function signOut() {
+        const { error } = await supabase.auth.signOut()
+    }
+
+
     return (
         <View className="flex-1 bg-black">
             <StatusBar style="light" />
-            <View className="flex-row gap-4 items-center justify-center mb-8">
+            <View className="flex-row gap-4 items-center justify-center mb-12">
                 <FontAwesome name="user" size={36} color="white" />
                 <Text className="font-bold text-2xl text-white text-center">Profile</Text>
             </View>
-            <View className="items-center justify-center">
-                <Text className="text-white font-bold text-xl mb-6">{session?.user?.email}</Text>
+            <View className="items-center justify-between flex-row mx-8 mb-6">
+                <Text className="text-lg text-gray-300 font-light text-left">e-mail:</Text>
+                <Text className="text-white text-lg">{session?.user?.email}</Text>
+            </View>
+            <View className="items-center justify-between flex-row mx-8 mb-6">
+                <Text className="text-lg text-gray-300 font-light text-left">username:</Text>
+                <Text className="text-white text-lg">{session?.user?.email}</Text>
+            </View>
+            <View className="items-center justify-between flex-row mx-8">
+                <Text className="text-lg text-gray-300 font-light text-left">description:</Text>
+                <Text className="text-white text-lg">{session?.user?.email}</Text>
+            </View>
+            <View className="absolute bottom-16 left-0 right-0 items-center justify-center">
+                <TouchableOpacity className="bg-sky-600 w-[70%] p-5 rounded-xl items-center justify-center">
+                    <Text className="text-white">Sign Out</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
