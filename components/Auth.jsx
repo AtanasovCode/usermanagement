@@ -7,6 +7,7 @@ import {
     AppState,
     Alert,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { supabase } from "../lib/supabase";
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -21,11 +22,37 @@ AppState.addEventListener('change', (state) => {
 const Auth = () => {
 
     const [loading, setLoading] = useState(false);
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    async function signInWithEmail() {
+        setLoading(true)
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        })
+
+        if (error) Alert.alert(error.message)
+        setLoading(false)
+    }
+
+    async function signUpWithEmail() {
+        setLoading(true)
+        const {
+            data: { session },
+            error,
+        } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        })
+
+        if (error) Alert.alert(error.message)
+        setLoading(false)
+    }
 
     return (
         <View className="flex-1">
+            <StatusBar style="light" />
             <View className="flex-row items-center justify-center gap-4 mb-16">
                 <FontAwesome name="users" size={36} color="white" />
                 <Text className="text-white font-bold text-2xl">User Management</Text>
@@ -59,7 +86,7 @@ const Auth = () => {
                 <TouchableOpacity
                     className="p-4 rounded-2xl bg-sky-400"
                     disabled={loading}
-                    onPress={() => signInWithEmail()}
+                    onPress={() => signUpWithEmail()}
                 >
                     <Text className="text-center">Sign Up</Text>
                 </TouchableOpacity>
@@ -68,7 +95,7 @@ const Auth = () => {
                 <TouchableOpacity
                     className="p-4 rounded-2xl bg-gray-300"
                     disabled={loading}
-                    onPress={() => signUpWithEmail()}
+                    onPress={() => signInWithEmail()}
                 >
                     <Text className="text-center">Sign In</Text>
                 </TouchableOpacity>
