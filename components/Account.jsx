@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     AppState,
     Alert,
+    Image,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { supabase } from "../lib/supabase";
@@ -17,11 +18,15 @@ const Account = () => {
     const [username, setUsername] = useState('');
     const [website, setWebsite] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('');
+    const [imageUrl, setImageUrl] = useState(null);
 
     const session = useStore((state) => state.session);
 
     useEffect(() => {
-        if (session) getProfile();
+        if (session) {
+            getProfile();
+            fetchImageUrl();
+        };
     }, [session]);
 
     async function getProfile() {
@@ -83,33 +88,70 @@ const Account = () => {
         const { error } = await supabase.auth.signOut()
     }
 
+    const fetchImageUrl = async () => {
+        const { data } = supabase
+            .storage
+            .from('avatars')
+            .getPublicUrl('profile-placeholder.png');
+
+        if (data.error) {
+            console.error(data.error)
+        } else {
+            setImageUrl(data.publicUrl);
+            console.log(data.publicUrl)
+        }
+    };
+
 
     return (
-        <View className="flex-1 bg-black pt-16">
+        <View className="flex-1 bg-background py-16 justify-between">
             <StatusBar style="light" />
-            <View className="flex-row gap-4 items-center justify-center mb-12">
-                <FontAwesome name="user" size={36} color="white" />
-                <Text className="font-bold text-2xl text-white text-center">Profile</Text>
+            <View>
+                <View className="flex-row gap-4 items-center justify-center mb-12">
+                    <FontAwesome name="user" size={36} color="white" />
+                    <Text className="font-bold text-2xl text-text text-center">Profile</Text>
+                </View>
+                <View className="mb-16 h-[40%]">
+                    {
+                        imageUrl ?
+                            <Image
+                                source={{ uri: imageUrl }}
+                                className="h-full"
+                            />
+
+                            :
+                            <Text className="text-text font-bold text-3xl">Loading</Text>
+                    }
+                </View>
+                <View className="items-center justify-between flex-row mx-8 mb-6">
+                    <Text className="text-lg text-gray-300 font-light text-left">e-mail:</Text>
+                    <Text className="text-text text-lg">{session?.user?.email}</Text>
+                </View>
+                <View className="items-center justify-between flex-row mx-8 mb-6">
+                    <Text className="text-lg text-gray-300 font-light text-left">username:</Text>
+                    <Text className="text-text text-lg">{username || 'Loading...'}</Text>
+                </View>
+                <View className="items-center justify-between flex-row mx-8">
+                    <Text className="text-lg text-gray-300 font-light text-left">description:</Text>
+                    <Text className="text-text text-lg">{session?.user?.email}</Text>
+                </View>
             </View>
-            <View className="items-center justify-between flex-row mx-8 mb-6">
-                <Text className="text-lg text-gray-300 font-light text-left">e-mail:</Text>
-                <Text className="text-white text-lg">{session?.user?.email}</Text>
-            </View>
-            <View className="items-center justify-between flex-row mx-8 mb-6">
-                <Text className="text-lg text-gray-300 font-light text-left">username:</Text>
-                <Text className="text-white text-lg">{username || 'Loading...'}</Text>
-            </View>
-            <View className="items-center justify-between flex-row mx-8">
-                <Text className="text-lg text-gray-300 font-light text-left">description:</Text>
-                <Text className="text-white text-lg">{session?.user?.email}</Text>
-            </View>
-            <View className="absolute bottom-16 left-0 right-0 items-center justify-center">
-                <TouchableOpacity
-                    className="bg-sky-600 w-[70%] p-5 rounded-xl items-center justify-center"
-                    onPress={() => signOut()}
-                >
-                    <Text className="text-white">Sign Out</Text>
-                </TouchableOpacity>
+            <View className="items-center justify-center mx-16">
+                <View className="w-full mb-8">
+                    <TouchableOpacity
+                        className="bg-primary p-3 rounded-xl items-center justify-center"
+                    >
+                        <Text className="text-background">Edit Profile</Text>
+                    </TouchableOpacity>
+                </View>
+                <View className="w-full">
+                    <TouchableOpacity
+                        className="bg-secondary p-3 rounded-xl items-center justify-center"
+                        onPress={() => signOut()}
+                    >
+                        <Text className="text-text">Sign Out</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );

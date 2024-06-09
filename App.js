@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { supabase } from './lib/supabase'
 import Auth from './components/Auth'
 import Account from './components/Account'
+import Update from './components/Update'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useStore } from './useStore'
@@ -53,6 +54,13 @@ export default function App() {
         <Stack.Screen
           name="Account"
           component={Account}
+          options={{
+            headerShown: false,
+          }}
+        />
+                <Stack.Screen
+          name="Update"
+          component={Update}
           options={{
             headerShown: false,
           }}
