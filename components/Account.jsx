@@ -12,8 +12,13 @@ import { StatusBar } from "expo-status-bar";
 import { supabase } from "../lib/supabase";
 import { FontAwesome } from '@expo/vector-icons';
 import { useStore } from "../useStore";
+import { Dimensions } from "react-native";
 
-const Account = () => {
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
+const Account = ({ navigation }) => {
+
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState('');
     const [website, setWebsite] = useState('');
@@ -111,7 +116,7 @@ const Account = () => {
                     <FontAwesome name="user" size={36} color="white" />
                     <Text className="font-bold text-2xl text-text text-center">Profile</Text>
                 </View>
-                <View className="mb-16 h-[40%]">
+                <View className="mb-8" style={{ height: height * 0.2 }}>
                     {
                         imageUrl ?
                             <Image
@@ -136,10 +141,11 @@ const Account = () => {
                     <Text className="text-text text-lg">{session?.user?.email}</Text>
                 </View>
             </View>
-            <View className="items-center justify-center mx-16">
+            <View className="items-center justify-center" style={{ marginHorizontal: width * 0.2 }}>
                 <View className="w-full mb-8">
                     <TouchableOpacity
                         className="bg-primary p-3 rounded-xl items-center justify-center"
+                        onPress={() => navigation.navigate("Update")}
                     >
                         <Text className="text-background">Edit Profile</Text>
                     </TouchableOpacity>
