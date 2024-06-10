@@ -3,15 +3,18 @@ import {
     View,
     Text,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    Alert,
 } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useStore } from "../useStore";
+import { supabase } from "../lib/supabase";
 
-const Update = () => {
+const Update = ({ navigation }) => {
 
     const [loading, setLoading] = useState(false);
 
+    const session = useStore((state) => state.session);
     const username = useStore((state) => state.username);
     const website = useStore((state) => state.website);
     const avatarUrl = useStore((state) => state.avatarUrl);
@@ -43,6 +46,7 @@ const Update = () => {
             }
         } finally {
             setLoading(false);
+            navigation.navigate("Account");
         }
     }
 
@@ -54,10 +58,10 @@ const Update = () => {
             </View>
             <View className="mx-6 mb-8">
                 <Text className="text-slate-400 mb-4 text-xs text-left">
-                    generate new profile photo
+                    profile photo (default prompt is your nickname)
                 </Text>
                 <TextInput
-                    placeholder="generatenewrobotprofile"
+                    placeholder="mycoolrobotphoto"
                     placeholderTextColor="#a09d9d"
                     className="bg-secondary text-text px-4 py-2 rounded-2xl"
                     keyboardType="email-address"
@@ -69,7 +73,7 @@ const Update = () => {
             </View>
             <View className="mx-6 mb-8">
                 <Text className="text-slate-400 mb-4 text-xs text-left">
-                    Username
+                    username
                 </Text>
                 <TextInput
                     placeholder="Username"
@@ -83,7 +87,7 @@ const Update = () => {
             </View>
             <View className="mx-6 mb-8">
                 <Text className="text-slate-400 mb-4 text-xs text-left">
-                    Website
+                    website
                 </Text>
                 <TextInput
                     placeholder="Website"
@@ -100,6 +104,9 @@ const Update = () => {
                 <TouchableOpacity
                     className="p-4 rounded-2xl bg-accent"
                     disabled={loading}
+                    onPress={() => {
+                        updateProfile(username, website, avatarUrl)
+                    }}
                 >
                     <Text className="text-center text-text">Update</Text>
                 </TouchableOpacity>

@@ -81,6 +81,7 @@ const Auth = () => {
             <View className="mx-6 mb-8">
                 <TextInput
                     placeholder="mail@example.com"
+                    autoCapitalize="none"
                     placeholderTextColor="#a09d9d"
                     className="bg-secondary text-text px-4 py-2 rounded-2xl"
                     keyboardType="email-address"
@@ -93,6 +94,7 @@ const Auth = () => {
             <View className="mx-6 mb-8">
                 <TextInput
                     placeholder="Username"
+                    autoCapitalize="none"
                     placeholderTextColor="#a09d9d"
                     className="bg-secondary text-text px-4 py-2 rounded-2xl"
                     value={username}
@@ -104,10 +106,10 @@ const Auth = () => {
             <View className="mx-6 mb-8">
                 <TextInput
                     placeholder="Password"
+                    secureTextEntry={true}
+                    autoCapitalize="none"
                     placeholderTextColor="#a09d9d"
                     className="bg-secondary px-4 py-2 rounded-2xl text-text"
-                    keyboardType="email-address"
-                    secureTextEntry={true}
                     value={password}
                     onChangeText={(value) => {
                         setPassword(value)

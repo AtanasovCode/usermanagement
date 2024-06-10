@@ -25,6 +25,7 @@ const Account = ({ navigation }) => {
     const username = useStore((state) => state.username);
     const website = useStore((state) => state.website);
     const avatarUrl = useStore((state) => state.avatarUrl);
+    const initialAvatarUrl = useStore((state) => state.initialAvatarUrl);
     const saveUsername = useStore((state) => state.saveUsername);
     const saveAvatarUrl = useStore((state) => state.saveAvatarUrl);
     const saveWebsite = useStore((state) => state.saveWebsite);
@@ -51,6 +52,7 @@ const Account = ({ navigation }) => {
 
             if (data) {
                 saveUsername(data.username);
+                saveAvatarUrl(data.avatar_url);
                 data.website && saveWebsite(data.website);
             }
         } catch (error) {
@@ -76,9 +78,9 @@ const Account = ({ navigation }) => {
                     <Text className="font-bold text-2xl text-text text-center">Profile</Text>
                 </View>
                 <View className="mb-16 items-center justify-center" style={{ height: height * 0.25 }}>
-                    <View className="border border-accent p-4 rounded-full w-[50%] bg-accent items-center justify-center">
+                    <View className="border border-accent rounded-full w-[50%] bg-accent items-center justify-center overflow-hidden">
                         <Image
-                            source={{ uri: avatarUrl }}
+                            source={{ uri: avatarUrl ? `https://robohash.org/${avatarUrl}` : `https://robohash.org/${username}` }}
                             className="h-full w-[120%]"
                         />
                     </View>
