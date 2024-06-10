@@ -20,17 +20,18 @@ const height = Dimensions.get("window").height;
 const Account = ({ navigation }) => {
 
     const [loading, setLoading] = useState(true);
-    const [username, setUsername] = useState('');
-    const [website, setWebsite] = useState('');
-    const [avatarUrl, setAvatarUrl] = useState('');
-    const [imageUrl, setImageUrl] = useState(null);
 
     const session = useStore((state) => state.session);
+    const username = useStore((state) => state.username);
+    const website = useStore((state) => state.website);
+    const avatarUrl = useStore((state) => state.avatarUrl);
+    const saveUsername = useStore((state) => state.saveUsername);
+    const saveAvatarUrl = useStore((state) => state.saveAvatarUrl);
+    const saveWebsite = useStore((state) => state.saveWebsite);
 
     useEffect(() => {
         if (session) {
             getProfile();
-            fetchImageUrl();
         };
     }, [session]);
 
@@ -49,36 +50,8 @@ const Account = ({ navigation }) => {
             }
 
             if (data) {
-                setUsername(data.username);
-                setWebsite(data.website);
-                setAvatarUrl(data.avatar_url);
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                Alert.alert(error.message);
-            }
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    async function updateProfile({ username, website, avatar_url }) {
-        try {
-            setLoading(true);
-            if (!session?.user) throw new Error('No user on the session!');
-
-            const updates = {
-                id: session?.user.id,
-                username,
-                website,
-                avatar_url,
-                updated_at: new Date(),
-            };
-
-            const { error } = await supabase.from('profiles').upsert(updates);
-
-            if (error) {
-                throw error;
+                saveUsername(data.username);
+                data.website && saveWebsite(data.website);
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -93,20 +66,6 @@ const Account = ({ navigation }) => {
         const { error } = await supabase.auth.signOut()
     }
 
-    const fetchImageUrl = async () => {
-        const { data } = supabase
-            .storage
-            .from('avatars')
-            .getPublicUrl('profile-placeholder.png');
-
-        if (data.error) {
-            console.error(data.error)
-        } else {
-            setImageUrl(data.publicUrl);
-            console.log(data.publicUrl)
-        }
-    };
-
 
     return (
         <View className="flex-1 bg-background py-16 justify-between">
@@ -116,38 +75,34 @@ const Account = ({ navigation }) => {
                     <FontAwesome name="user" size={36} color="white" />
                     <Text className="font-bold text-2xl text-text text-center">Profile</Text>
                 </View>
-                <View className="mb-8" style={{ height: height * 0.2 }}>
-                    {
-                        imageUrl ?
-                            <Image
-                                source={{ uri: imageUrl }}
-                                className="h-full"
-                            />
-
-                            :
-                            <Text className="text-text font-bold text-3xl">Loading</Text>
-                    }
+                <View className="mb-16 items-center justify-center" style={{ height: height * 0.25 }}>
+                    <View className="border border-accent p-4 rounded-full w-[50%] bg-accent items-center justify-center">
+                        <Image
+                            source={{ uri: avatarUrl }}
+                            className="h-full w-[120%]"
+                        />
+                    </View>
                 </View>
                 <View className="items-center justify-between flex-row mx-8 mb-6">
-                    <Text className="text-lg text-gray-300 font-light text-left">e-mail:</Text>
+                    <Text className="text-md text-gray-400 font-light text-left">e-mail:</Text>
                     <Text className="text-text text-lg">{session?.user?.email}</Text>
                 </View>
                 <View className="items-center justify-between flex-row mx-8 mb-6">
-                    <Text className="text-lg text-gray-300 font-light text-left">username:</Text>
-                    <Text className="text-text text-lg">{username || 'Loading...'}</Text>
+                    <Text className="text-md text-gray-400 font-light text-left">username:</Text>
+                    <Text className="text-text text-lg">{username}</Text>
                 </View>
                 <View className="items-center justify-between flex-row mx-8">
-                    <Text className="text-lg text-gray-300 font-light text-left">description:</Text>
-                    <Text className="text-text text-lg">{session?.user?.email}</Text>
+                    <Text className="text-md text-gray-400 font-light text-left">website:</Text>
+                    <Text className="text-text text-lg">{website}</Text>
                 </View>
             </View>
-            <View className="items-center justify-center" style={{ marginHorizontal: width * 0.2 }}>
+            <View className="items-center justify-center" style={{ marginHorizontal: width * 0.1 }}>
                 <View className="w-full mb-8">
                     <TouchableOpacity
-                        className="bg-primary p-3 rounded-xl items-center justify-center"
+                        className="bg-accent p-3 rounded-xl items-center justify-center"
                         onPress={() => navigation.navigate("Update")}
                     >
-                        <Text className="text-background">Edit Profile</Text>
+                        <Text className="text-text">Edit Profile</Text>
                     </TouchableOpacity>
                 </View>
                 <View className="w-full">
