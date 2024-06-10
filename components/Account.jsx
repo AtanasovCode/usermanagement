@@ -72,6 +72,7 @@ const Account = ({ navigation }) => {
     return (
         <View className="flex-1 bg-background py-16 justify-between">
             <StatusBar style="light" />
+            {loading && <Text className="font-bold text-2xl text-text">LOADING</Text>}
             <View>
                 <View className="flex-row gap-4 items-center justify-center mb-12">
                     <FontAwesome name="user" size={36} color="white" />
