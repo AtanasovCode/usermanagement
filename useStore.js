@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import * as Crypto from 'expo-crypto';
 
 export const useStore = create((set) => ({
     //supabase state
@@ -23,7 +24,7 @@ export const useStore = create((set) => ({
     saveTitle: (title) => set({ title }),
     body: null,
     saveBody: (body) => set({ body }),
-    availableFlaires: [
+    availableFlairs: [
         {
             name: "Opinion",
             color: "#1fb2cd",
@@ -38,7 +39,7 @@ export const useStore = create((set) => ({
         },
         {
             name: "Help",
-            color: "#f87171",
+            color: "#be123c",
         },
         {
             name: "Question",
@@ -53,6 +54,6 @@ export const useStore = create((set) => ({
             color: "#be123c",
         },
     ],
-    selectedFlaire: null,
-    setSelectedFlaire: (flaire) => set({ selectedFlaire: flaire })
+    flair: { name: null, color: null },
+    saveFlair: (name, color) => set({ flair: { name, color } })
 }));
