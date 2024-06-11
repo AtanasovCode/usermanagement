@@ -6,8 +6,15 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useStore } from "../useStore";
 
 const CreatePost = ({ navigation }) => {
+
+    const title = useStore((state) => state.title);
+    const saveTitle = useStore((state) => state.saveTitle);
+    const body = useStore((state) => state.body);
+    const saveBody = useStore((state) => state.saveBody);
+
     return (
         <SafeAreaView className="flex-1 bg-background py-12 justify-between">
             <View>
@@ -21,6 +28,8 @@ const CreatePost = ({ navigation }) => {
                         className="py-4 px-6 bg-secondary rounded-xl mb-4"
                         placeholder="Title"
                         placeholderTextColor={"#aaa"}
+                        value={title}
+                        onChangeText={(text) => saveTitle(text)}
                     />
                     <TextInput
                         className="py-4 px-6 bg-secondary rounded-xl text-text"
@@ -29,6 +38,8 @@ const CreatePost = ({ navigation }) => {
                         multiline={true}
                         numberOfLines={8}
                         style={{ textAlignVertical: "top" }}
+                        value={body}
+                        onChangeText={(text) => saveBody(text)}
                     />
                 </View>
             </View>
