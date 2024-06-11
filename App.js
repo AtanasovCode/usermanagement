@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from './lib/supabase'
-import Auth from './components/Auth'
-import Account from './components/Account'
-import Update from './components/Update'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useStore } from './useStore'
+
+import Auth from './components/Auth'
+import Account from './components/Account'
+import Homepage from './components/Homepage'
+import Update from './components/Update'
+import CreatePost from './components/CreatePost'
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -43,10 +46,17 @@ export default function App() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={session && session.user ? "Account" : "Auth"}>
+      <Stack.Navigator initialRouteName={session && session.user ? "Home" : "Auth"}>
         <Stack.Screen
           name="Auth"
           component={Auth}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Homepage}
           options={{
             headerShown: false,
           }}
@@ -58,9 +68,16 @@ export default function App() {
             headerShown: false,
           }}
         />
-                <Stack.Screen
+        <Stack.Screen
           name="Update"
           component={Update}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Create"
+          component={CreatePost}
           options={{
             headerShown: false,
           }}
