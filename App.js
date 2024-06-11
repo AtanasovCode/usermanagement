@@ -37,7 +37,7 @@ export default function App() {
   useEffect(() => {
     if (navigationRef.current) {
       if (session && session.user) {
-        navigationRef.current.navigate('Account');
+        navigationRef.current.navigate('Home');
       } else {
         navigationRef.current.navigate('Auth');
       }
@@ -46,7 +46,7 @@ export default function App() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={session && session.user ? "Home" : "Auth"}>
+      <Stack.Navigator>
         <Stack.Screen
           name="Auth"
           component={Auth}
