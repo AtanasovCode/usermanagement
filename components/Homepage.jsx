@@ -3,7 +3,9 @@ import {
     View,
     Text,
     Image,
+    ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useStore } from "../useStore";
 import { TouchableOpacity } from "react-native";
 
@@ -13,7 +15,7 @@ const Homepage = ({ navigation }) => {
     const username = useStore((state) => state.username);
 
     return (
-        <View className="flex-1 bg-background py-8">
+        <SafeAreaView className="flex-1 bg-background py-8">
             <View className="mb-12 items-center justify-center flex-row">
                 <Text className="font-bold text-2xl text-center text-text">Home</Text>
                 <TouchableOpacity
@@ -28,7 +30,16 @@ const Homepage = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
             </View>
-        </View>
+            <ScrollView className="flex-1 px-6">
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Create")}
+                >
+                    <View className="p-4 bg-secondary rounded-md mb-6">
+                        <Text className="text-slate-400 text-lg">Create post...</Text>
+                    </View>
+                </TouchableOpacity>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
