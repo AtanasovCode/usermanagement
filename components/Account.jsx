@@ -13,6 +13,8 @@ import { supabase } from "../lib/supabase";
 import { FontAwesome } from '@expo/vector-icons';
 import { useStore } from "../useStore";
 import { Dimensions } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
+
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -77,6 +79,12 @@ const Account = ({ navigation }) => {
                 <View className="flex-row gap-4 items-center justify-center mb-12">
                     <FontAwesome name="user" size={36} color="white" />
                     <Text className="font-bold text-2xl text-text text-center">Profile</Text>
+                    <TouchableOpacity 
+                        className="absolute left-6 items-center justify-end h-full"
+                        onPress={() => navigation.navigate("Home")}
+                    >
+                        <Ionicons name="home-sharp" size={30} color="white" />
+                    </TouchableOpacity>
                 </View>
                 <View className="mb-16 items-center justify-center" style={{ height: height * 0.25 }}>
                     <View className="border border-accent rounded-full w-[50%] bg-accent items-center justify-center overflow-hidden">
