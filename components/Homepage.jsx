@@ -63,7 +63,7 @@ const Homepage = ({ navigation }) => {
                 >
                     <View className="border border-accent bg-accent rounded-full w-12 h-12 items-center justify-center overflow-hidden">
                         <Image
-                            source={{ uri: avatarUrl ? `https://robohash.org/${avatarUrl}` : `https://robohash.org/${username}` }}
+                            source={{ uri: avatarUrl }}
                             className="w-[130%] h-[130%]"
                         />
                     </View>
@@ -78,12 +78,14 @@ const Homepage = ({ navigation }) => {
             </TouchableOpacity>
             <ScrollView className="flex-1">
                 {
-                    posts.map((post) => {
+                    posts && posts.map((post) => {
                         return (
-                            <View key={post.id} className="bg-secondary p-4 rounded-2xl">
-                                <View className="flex-row gap-4">
-                                    <View></View>
-                                    <View className="flex-1">
+                            <View key={post.id} className="mb-6">
+                                <View className="flex-row gap-4 items-center justify-center">
+                                    <View className="border border-accent bg-accent rounded-full w-12 h-12 items-center justify-center overflow-hidden">
+                                        
+                                    </View>
+                                    <View className="flex-1 bg-secondary p-4 rounded-2xl">
                                         <Text className="text-text text-xl mb-4">{post.title}</Text>
                                         <Text className="text-text">{post.body}</Text>
                                     </View>

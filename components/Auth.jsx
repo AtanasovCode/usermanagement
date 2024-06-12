@@ -59,7 +59,7 @@ const Auth = () => {
         if (user) {
             const { error: updateError } = await supabase
                 .from('profiles')
-                .update({ username: username })
+                .update({ username: username, avatar_url: `https://robohash.org/${username}` })
                 .eq('id', user.id);
 
             if (updateError) {

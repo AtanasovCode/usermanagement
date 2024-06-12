@@ -3,6 +3,7 @@ import { supabase } from './lib/supabase'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useStore } from './useStore'
+import { Alert } from 'react-native'
 
 import Auth from './components/Auth'
 import Account from './components/Account'
@@ -61,7 +62,7 @@ export default function App() {
 
       if (data) {
         saveUsername(data.username);
-        saveAvatarUrl(data.avatar_url);
+        data.avatar_url && saveAvatarUrl(data.avatar_url);
         data.website && saveWebsite(data.website);
       }
     } catch (error) {

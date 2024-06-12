@@ -21,8 +21,6 @@ const height = Dimensions.get("window").height;
 
 const Account = ({ navigation }) => {
 
-    const [loading, setLoading] = useState(true);
-
     const session = useStore((state) => state.session);
     const username = useStore((state) => state.username);
     const website = useStore((state) => state.website);
@@ -51,7 +49,7 @@ const Account = ({ navigation }) => {
                 <View className="mb-16 items-center justify-center" style={{ height: height * 0.25 }}>
                     <View className="border border-accent rounded-full w-[50%] bg-accent items-center justify-center overflow-hidden">
                         <Image
-                            source={{ uri: avatarUrl ? `https://robohash.org/${avatarUrl}` : `https://robohash.org/${username}` }}
+                            source={{ uri: avatarUrl}}
                             className="h-full w-[120%]"
                         />
                     </View>
