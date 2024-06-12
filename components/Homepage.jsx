@@ -53,6 +53,10 @@ const Homepage = ({ navigation }) => {
         }
     }
 
+    useEffect(() => {
+        console.log(posts);
+    }, [posts])
+
     return (
         <SafeAreaView className="flex-1 bg-background py-8 px-6">
             <View className="mb-12 items-center justify-center flex-row">
@@ -83,7 +87,10 @@ const Homepage = ({ navigation }) => {
                             <View key={post.id} className="mb-6">
                                 <View className="flex-row gap-4 items-center justify-center">
                                     <View className="border border-accent bg-accent rounded-full w-12 h-12 items-center justify-center overflow-hidden">
-                                        
+                                        <Image
+                                            source={{ uri: post.avatar }}
+                                            className="w-[130%] h-[130%]"
+                                        />
                                     </View>
                                     <View className="flex-1 bg-secondary p-4 rounded-2xl">
                                         <Text className="text-text text-xl mb-4">{post.title}</Text>

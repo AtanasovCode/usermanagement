@@ -23,6 +23,7 @@ const CreatePost = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
     const session = useStore((state) => state.session);
     const username = useStore((state) => state.username);
+    const avatarUrl = useStore((state) => state.avatarUrl);
     const title = useStore((state) => state.title);
     const saveTitle = useStore((state) => state.saveTitle);
     const body = useStore((state) => state.body);
@@ -45,6 +46,7 @@ const CreatePost = ({ navigation }) => {
                 image_url: null,
                 user_id: session?.user.id,
                 flair: flair.name,
+                avatar: avatarUrl,
             }
 
             const { error } = await supabase.from('posts').insert(post);
