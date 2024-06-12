@@ -27,44 +27,7 @@ const Account = ({ navigation }) => {
     const username = useStore((state) => state.username);
     const website = useStore((state) => state.website);
     const avatarUrl = useStore((state) => state.avatarUrl);
-    const initialAvatarUrl = useStore((state) => state.initialAvatarUrl);
-    const saveUsername = useStore((state) => state.saveUsername);
-    const saveAvatarUrl = useStore((state) => state.saveAvatarUrl);
-    const saveWebsite = useStore((state) => state.saveWebsite);
 
-    useEffect(() => {
-        if (session) {
-            getProfile();
-        };
-    }, [session]);
-
-    async function getProfile() {
-        try {
-            setLoading(true);
-            if (!session?.user) throw new Error('No user on the session!');
-
-            const { data, error, status } = await supabase
-                .from('profiles')
-                .select(`username, website, avatar_url`)
-                .eq('id', session?.user.id)
-                .single();
-            if (error && status !== 406) {
-                throw error;
-            }
-
-            if (data) {
-                saveUsername(data.username);
-                saveAvatarUrl(data.avatar_url);
-                data.website && saveWebsite(data.website);
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                Alert.alert(error.message);
-            }
-        } finally {
-            setLoading(false);
-        }
-    }
 
     async function signOut() {
         const { error } = await supabase.auth.signOut()
@@ -74,7 +37,6 @@ const Account = ({ navigation }) => {
     return (
         <View className="flex-1 bg-background py-16 justify-between">
             <StatusBar style="light" />
-            {loading && <Text className="font-bold text-2xl text-text">LOADING</Text>}
             <View>
                 <View className="flex-row gap-4 items-center justify-center mb-12">
                     <FontAwesome name="user" size={36} color="white" />

@@ -7,6 +7,8 @@ export const useStore = create((set) => ({
     setSession: (session) => set({ session }),
     userId: null,
     setUserId: (id) => set({ userId: id }),
+    loading: false,
+    setLoading: (loading) => set({ loading }),
 
     //state for user info
     email: null,
@@ -55,5 +57,9 @@ export const useStore = create((set) => ({
         },
     ],
     flair: { name: null, color: null },
-    saveFlair: (name, color) => set({ flair: { name, color } })
+    saveFlair: (name, color) => set({ flair: { name, color } }),
+
+    //homepage posts
+    posts: [],
+    savePosts: (posts) => set({ posts }),
 }));
