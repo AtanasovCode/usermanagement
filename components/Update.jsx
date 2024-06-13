@@ -31,7 +31,7 @@ const Update = ({ navigation }) => {
                 id: session?.user.id,
                 username,
                 website,
-                avatar_url,
+                avatar_url: `https://robohash.org/${avatarUrl}`,
                 updated_at: new Date(),
             };
 
@@ -40,6 +40,7 @@ const Update = ({ navigation }) => {
             if (error) {
                 throw error;
             }
+            
         } catch (error) {
             if (error instanceof Error) {
                 Alert.alert(error.message);

@@ -10,6 +10,7 @@ import { supabase } from "../lib/supabase";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useStore } from "../useStore";
 import { TouchableOpacity } from "react-native";
+import Loading from "./Loading";
 
 const Homepage = ({ navigation }) => {
 
@@ -23,10 +24,8 @@ const Homepage = ({ navigation }) => {
     const savePosts = useStore((state) => state.savePosts);
 
     useEffect(() => {
-        if (session) {
-            getPosts();
-        };
-    }, [session]);
+        getPosts();
+    }, []);
 
     async function getPosts() {
         try {
@@ -52,10 +51,6 @@ const Homepage = ({ navigation }) => {
             setLoading(false);
         }
     }
-
-    useEffect(() => {
-        console.log(posts);
-    }, [posts])
 
     return (
         <SafeAreaView className="flex-1 bg-background py-8 px-6">
@@ -102,6 +97,7 @@ const Homepage = ({ navigation }) => {
                     })
                 }
             </ScrollView>
+            {loading && <Loading />}
         </SafeAreaView>
     );
 }

@@ -13,6 +13,7 @@ import { supabase } from "../lib/supabase";
 import { useStore } from "../useStore";
 import { Dimensions } from "react-native";
 import * as Crypto from 'expo-crypto';
+import Loading from "./Loading";
 
 const CreatePost = ({ navigation }) => {
 
@@ -32,6 +33,8 @@ const CreatePost = ({ navigation }) => {
     const flair = useStore((state) => state.flair);
     const saveFlair = useStore((state) => state.saveFlair)
 
+    const savePosts = useStore((state) => state.savePosts);
+
     const [showFlairSelection, setShowFlairSelection] = useState(false);
 
     const savePost = async (title, body) => {
@@ -50,7 +53,6 @@ const CreatePost = ({ navigation }) => {
             }
 
             const { error } = await supabase.from('posts').insert(post);
-            console.log(username);
 
             if (error) {
                 throw error;
@@ -170,6 +172,7 @@ const CreatePost = ({ navigation }) => {
                     <Text className="text-text text-lg text-center">Create Post</Text>
                 </TouchableOpacity>
             </View>
+            {loading && <Loading />}
         </SafeAreaView>
     );
 }
